@@ -18,17 +18,17 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 // Update these with values suitable for your network.
 byte mac[] = { 0xF0, 0xAE, 0x0C, 0x9F, 0x84, 0x14 }; //change to unique MAC
 //update below values only if you decide not to use DHCP
-//byte ip[] = { 192, 168, 0, 62}; //put your devices local ip here
+//byte ip[] = { 192, 168, 1, 62}; //put your devices local ip here
 //byte dns1234[] = { 8, 8, 8, 8}; // google dns
-//byte gateway[] = { 192, 168, 0, 254}; // local network gateway IP
+//byte gateway[] = { 192, 168, 1, 254}; // local network gateway IP
 
 bool quickstart = true; //change to false if you want to use registeres organisation
-char topicStr[] = "iot-2/evt/status/fmt/json"; // topic to which your device publishes messages the part you can chance is "status"
-
 //char servername[]="quickstart.messaging.internetofthings.ibmcloud.com"; //change to suit "organisationID".messaging.internetofthings.ibmcloud.com
 char servername[]="184.172.124.189"; //IP of your organisation ping site above to get IP ("windows use command prompt")
 char clientStr[] = "d:quickstart:arduino:f0ae0c9f8414"; // change to suit d:organisationID:deviceType:deviceName
 char token[] = ""; // insert your device token
+
+char topicStr[] = "iot-2/evt/status/fmt/json"; // topic to which your device publishes messages the part you can chance is "status"
 
 int SerialMessageLength = 170;
 char data[170] = {}; //serial buffer
@@ -82,9 +82,6 @@ void reconnect()
     }else{
       client.connect(clientStr);
     }
-    
-    //ORGANISATION: uncomment and change the line below if you want to usegateway with your ogranisation
-    //
   }
   
   if(!quickstart){
@@ -99,7 +96,7 @@ void reconnect()
 void setup()
 { 
   Serial.begin(38400);
-  Serial.print("\nRDYxxxx\r");//FireFly module on xbee changing pins so serial communication can be established even if the pins are swapped
+  Serial.print("\nRDYxxxx\r");//FireFly module on Xbee changing pins so serial communication can be established even if the pins are swapped
   delay(5000);
   Serial.print("\nRDYxxxx\r");
   
@@ -128,7 +125,7 @@ void loop()
     }
     
      while(Serial.available() > 0){
-       
+      //reading serial from FF1502 BLE module
       if(index < SerialMessageLength){
         data[index] = Serial.read();
         //Serial.print(data[index]);
